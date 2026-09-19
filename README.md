@@ -1000,7 +1000,7 @@ Cyber-Fly — 賽博果蠅。
 
 ---
 
-📬 聯繫創作者
+## 📬 聯繫創作者
 
 - Instagram：[a370373/XRH](https://instagram.com/a370373)
 - 本人17歲🤔 做的不好請見諒
@@ -1022,7 +1022,7 @@ Cyber-Fly — 賽博果蠅。
 
 ---
 
-🤖 AI 協作
+## 🤖 AI 協作
 
 Cyber-Fly 由 a370373/XRH 發起、設計與開發。
 
