@@ -1354,6 +1354,16 @@ Cyber-Fly 的核心不是：
 
 ---
 
+### 🧮 Numerical Backend
+
+Cyber-Fly currently uses:
+
+- NumPy — numerical arrays, frame processing, neuron state computation
+- SciPy — sparse matrix operations for MaleCNS synaptic propagation
+- Numba / llvmlite — not required by the current CPU backend
+
+---
+
 ## 📬 聯繫創作者
 
 - Instagram：[a370373/XRH](https://instagram.com/a370373)
