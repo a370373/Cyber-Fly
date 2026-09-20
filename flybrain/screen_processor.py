@@ -9,7 +9,7 @@ from .screen_vision import ScreenVision
 
 
 class ScreenProcessor:
-    """Connect a screen environment to the fly's visual system and brain."""
+    """Connect a complete screen frame to the fly's visual system."""
 
     def __init__(self, brain: FlyBrain):
         self.brain = brain
@@ -17,6 +17,9 @@ class ScreenProcessor:
         self.vision = ScreenVision()
 
     def step(self, frame: ScreenFrame) -> np.ndarray:
-        blobs = self.vision.detect(frame)
-        eye_drive = self.eyes.drive(blobs)
+        """Process the complete screen through the fly's visual system."""
+
+        pixels = self.vision.frame(frame)
+        eye_drive = self.eyes.drive(pixels)
+
         return self.brain.step(eye_drive)

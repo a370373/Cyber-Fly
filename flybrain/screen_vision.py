@@ -3,95 +3,39 @@ from __future__ import annotations
 import numpy as np
 
 from .environment import ScreenFrame
-from .eyes import Blob
 
 
 class ScreenVision:
-    """Convert arbitrary RGB/RGBA screen frames into horizontal visual blobs."""
+    """Provide complete screen frames to the fly's visual system."""
 
-    def __init__(
-        self,
-        threshold: float = 0.20,
-        horizontal_bins: int = 64,
-    ):
-        self.threshold = float(np.clip(threshold, 0.0, 1.0))
-        self.horizontal_bins = max(8, int(horizontal_bins))
+    def __init__(self):
+        pass
 
-    def _normalize(self, frame: ScreenFrame) -> np.ndarray:
-        pixels = np.asarray(frame.pixels)
+    def frame(self, screen: ScreenFrame) -> np.ndarray:
+        """Return the complete RGB/RGBA screen as normalized float32 data."""
 
-        if pixels.ndim == 3:
-            if pixels.shape[2] >= 3:
-                pixels = pixels[..., :3].mean(axis=2)
-            elif pixels.shape[2] == 1:
-                pixels = pixels[..., 0]
-            else:
-                raise ValueError("unsupported channel count")
+        pixels = np.asarray(screen.pixels)
 
-        if pixels.ndim != 2:
+        if pixels.ndim == 2:
+            pixels = pixels[..., None]
+
+        if pixels.ndim != 3:
             raise ValueError(
-                "ScreenFrame.pixels must be a 2-D grayscale or 3-D RGB/RGBA array"
+                "ScreenFrame.pixels must be a 2-D grayscale "
+                "or 3-D RGB/RGBA array"
+            )
+
+        if pixels.shape[2] not in (1, 3, 4):
+            raise ValueError(
+                f"unsupported channel count: {pixels.shape[2]}"
             )
 
         pixels = pixels.astype(np.float32, copy=False)
 
         if pixels.size == 0:
-            return np.empty((0, 0), dtype=np.float32)
+            return pixels
 
         if float(np.nanmax(pixels)) > 1.0:
             pixels /= 255.0
 
         return np.clip(pixels, 0.0, 1.0)
-
-    def detect(self, frame: ScreenFrame) -> list[Blob]:
-        """Convert a complete screen into horizontally distributed visual blobs."""
-
-        pixels = self._normalize(frame)
-
-        if pixels.size == 0:
-            return []
-
-        height, width = pixels.shape
-
-        if width <= 0 or height <= 0:
-            return []
-
-        darkness = 1.0 - pixels
-        profile = darkness.mean(axis=0)
-
-        bins = min(self.horizontal_bins, width)
-        edges = np.linspace(0, width, bins + 1, dtype=np.int32)
-
-        blobs: list[Blob] = []
-
-        for i in range(bins):
-            x0 = int(edges[i])
-            x1 = int(edges[i + 1])
-
-            if x1 <= x0:
-                continue
-
-            strength = float(profile[x0:x1].mean())
-
-            if strength < self.threshold:
-                continue
-
-            center_px = (x0 + x1 - 1) * 0.5
-
-            center = (
-                2.0 * center_px / max(width - 1, 1)
-            ) - 1.0
-
-            half_width = (
-                max(1.0, x1 - x0) / max(width, 1)
-            ) * 0.5
-
-            blobs.append(
-                Blob(
-                    center=float(np.clip(center, -1.0, 1.0)),
-                    half_width=float(np.clip(half_width, 0.01, 1.0)),
-                    darkness=float(np.clip(strength, 0.0, 1.0)),
-                )
-            )
-
-        return blobs
