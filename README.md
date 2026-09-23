@@ -1,4 +1,4 @@
-## 🪰 Cyber-Fly
+# 🪰 Cyber-Fly
 
 «把真實果蠅神經系統數位化，放進數位世界，觀察它如何感知、活動、行動，以及如何影響環境。»
 
@@ -14,6 +14,7 @@ Cyber-Fly 是一個以真實果蠅神經連接組（connectome）為核心的數
 
 Cyber-Fly 的核心研究方向可以概括為：
 
+```
 真實生物神經系統
         ↓
 Connectome 數位化
@@ -31,9 +32,11 @@ Connectome 數位化
 環境改變
         ↓
 新的感覺輸入
+```
 
 形成一個持續運作的閉環：
 
+```
 🌍 Environment
       ↓
 👁️ Sensory Input
@@ -45,6 +48,7 @@ Connectome 數位化
 🌍 Environment
       ↓
        ↺
+```
 
 ---
 
@@ -84,6 +88,7 @@ MaleCNS 是真實成年雄性果蠅中央神經系統的 connectome。
 
 它描述的是：
 
+```
 Neuron
   ↓
 Neuron
@@ -91,6 +96,7 @@ Neuron
 Synaptic connection
   ↓
 另一個 neuron
+```
 
 也就是：
 
@@ -120,8 +126,10 @@ Cyber-Fly 使用的預建資料來自 "fly.ai" 專案所提供的 MaleCNS 衍生
 
 "fly.ai" README 說明其 "flybrain" 使用完整 MaleCNS v1.0 connectome，並提供預建的：
 
+```
 brain.npz
 weights.npz
+```
 
 這些檔案是從公開 MaleCNS 資料建立出的可直接載入形式。
 
@@ -135,9 +143,11 @@ weights.npz
 
 Cyber-Fly 本身目前保存：
 
+```
 fly-data/
 ├── brain.npz
 └── weights.npz
+```
 
 ---
 
@@ -147,6 +157,7 @@ fly-data/
 
 目前資料包含：
 
+```
 ids
 visual
 azimuth
@@ -154,7 +165,9 @@ cell_type
 side
 positions
 superclass
+```
 
+```
 group_forward_L
 group_forward_R
 group_steer_L
@@ -167,6 +180,7 @@ group_punch_L
 group_punch_R
 group_kick_L
 group_kick_R
+```
 
 其中包含：
 
@@ -187,10 +201,12 @@ group_kick_R
 
 目前資料：
 
+```
 indices : 25,582,938
 indptr  : 166,701
 data    : 25,582,938
 shape   : (166,700, 166,700)
+```
 
 因此 Cyber-Fly 不會建立一個巨大的 dense "166700 × 166700" 矩陣，而是使用 sparse matrix 保存神經連接。
 
@@ -198,6 +214,7 @@ shape   : (166,700, 166,700)
 
 核心傳播概念：
 
+```
 fired neurons
       ↓
 Sparse synaptic connections
@@ -205,6 +222,7 @@ Sparse synaptic connections
 postsynaptic current
       ↓
 next neural state
+```
 
 ---
 
@@ -212,22 +230,28 @@ next neural state
 
 目前資料 SHA-256：
 
+```
 brain.npz
 cc9bd1ecd00bd703a6fa648bc6ad145c93c7c1ee53debdcc9ce0d1f4305e6aca
+```
 
+```
 weights.npz
 c29919aa44069a271b1ee978abe05fa9bf6e45e4ba3e436e92b624ef1b5be40c
+```
 
 ---
 
-$$ 🗃️ Git LFS
+## 🗃️ Git LFS
 
 由於兩個核心資料檔約 260 MB，因此 Cyber-Fly 使用 Git LFS。
 
 目前：
 
+```
 cc9bd1ecd0 * fly-data/brain.npz
 c29919aa44 * fly-data/weights.npz
+```
 
 兩個資料檔皆由 Git LFS 追蹤。
 
@@ -241,6 +265,7 @@ https://github.com/a370373/Cyber-Fly
 
 Cyber-Fly Core 目前負責：
 
+```
 Data
  ↓
 MaleCNS neural network
@@ -252,6 +277,7 @@ Sensory input
 Motor decoding
  ↓
 Semantic Action
+```
 
 核心原則：
 
@@ -267,6 +293,7 @@ Cyber-Fly 接收的是完整環境畫面。
 
 目前 pipeline：
 
+```
 Environment Frame
        ↓
 ScreenVision
@@ -276,6 +303,7 @@ Eyes
 6006 visual neurons
        ↓
 MaleCNS
+```
 
 支援：
 
@@ -303,9 +331,11 @@ azimuth
 
 目前測試確認：
 
+```
 visual neurons : 6006
 azimuth values : 72 unique values
 range          : -1.0 → 1.0
+```
 
 重要限制：
 
@@ -340,6 +370,7 @@ input → neural network → trained answer
 
 而是：
 
+```
 input
  ↓
 real connectome structure
@@ -349,6 +380,7 @@ neural dynamics
 activity
  ↓
 output
+```
 
 目前不需要透過 reinforcement learning 對 MaleCNS 進行訓練。
 
@@ -377,6 +409,7 @@ MotorDecoder 會將神經活動轉換成標準化的 Semantic Action。
 
 例如：
 
+```
 NONE
 CLICK
 DOUBLE_CLICK
@@ -398,6 +431,7 @@ KEY_PRESS
 KEY_RELEASE
 SCROLL_UP
 SCROLL_DOWN
+```
 
 重要：
 
@@ -417,6 +451,7 @@ Cyber-Fly Core 不直接控制作業系統。
 
 整體架構：
 
+```
                  🧠 Cyber-Fly Core
                          │
                    Semantic Action
@@ -428,6 +463,7 @@ Cyber-Fly Core 不直接控制作業系統。
                          │
                          ▼
                     🌍 Environment
+```
 
 因此：
 
@@ -464,6 +500,7 @@ Bridge 再決定這個語義如何在實際平台中實現。
 
 概念：
 
+```
 Cyber-Fly Core
       ↓
 TCP
@@ -473,6 +510,7 @@ Android Bridge
 Accessibility / Android APIs
       ↓
 Android App / Game
+```
 
 ---
 
@@ -482,14 +520,20 @@ Android Bridge 可以提供可配置的 Action Zones。
 
 例如：
 
+```
 Zone A
 CLICK
+```
 
+```
 Zone B
 SWIPE
+```
 
+```
 Zone C
 LONG_PRESS
+```
 
 使用者只提供：
 
@@ -523,20 +567,26 @@ CLICK
 
 主要輸出介面：
 
+```
 🖱️ Mouse
 ⌨️ Keyboard
+```
 
 可能支援：
 
+```
 Mouse Move
 Click
 Double Click
 Long Press
 Drag
 Scroll
+```
 
+```
 Key Press
 Key Release
+```
 
 Cyber-Fly 不需要知道：
 
@@ -556,6 +606,7 @@ Cyber-Fly 不需要知道：
 
 目標同樣是：
 
+```
 Cyber-Fly Core
       ↓
 Linux Bridge
@@ -563,6 +614,7 @@ Linux Bridge
 Linux input/event system
       ↓
 Application / Environment
+```
 
 Core 不需要知道 Linux 的底層輸入實作。
 
@@ -580,6 +632,7 @@ Minecraft 可以作為 Cyber-Fly 的數位生態環境。
 
 例如：
 
+```
 🌍 Minecraft
   ↓
 畫面 / 環境狀態
@@ -591,6 +644,7 @@ Minecraft 可以作為 Cyber-Fly 的數位生態環境。
 🦿 行為
   ↓
 Minecraft
+```
 
 Minecraft 的價值在於它是一個持續變化的環境：
 
@@ -606,6 +660,7 @@ Minecraft 的價值在於它是一個持續變化的環境：
 
 因此可以形成長時間閉環：
 
+```
 Environment
     ↓
 Sensory Input
@@ -618,13 +673,16 @@ Environment Change
     ↓
 Sensory Input
     ↺
+```
 
 Cyber-Fly 不需要知道：
 
+```
 「這是 Minecraft」
 「這是樹」
 「這是 Creeper」
 「這個物品可以合成」
+```
 
 這些都是人類的語義。
 
@@ -636,20 +694,30 @@ Cyber-Fly 不保證產生「有效行為」。
 
 它可能：
 
+```
 CLICK
 → 點到空白
+```
 
+```
 SWIPE
 → 滑到沒有東西的地方
+```
 
+```
 MOVE
 → 移動幾個 pixel
+```
 
+```
 KEY_PRESS
 → 按到沒有作用的按鍵
+```
 
+```
 NONE
 → 完全不動
+```
 
 甚至可能：
 
@@ -671,6 +739,7 @@ NONE
 
 實驗過程可能出現：
 
+```
 Cyber-Fly
 ↓
 打開背包
@@ -678,6 +747,7 @@ Cyber-Fly
 長時間無法關閉
 ↓
 環境被卡住
+```
 
 此時可以由實驗管理員進行人工介入。
 
@@ -685,23 +755,35 @@ Cyber-Fly
 
 例如：
 
+```
 [14:32:10]
 Cyber-Fly → CLICK
+```
 
+```
 [14:32:11]
 Inventory opened
+```
 
+```
 [14:35:42]
 No recovery
+```
 
+```
 [14:35:43]
 HUMAN_INTERVENTION
+```
 
+```
 [14:35:44]
 Environment restored
+```
 
+```
 [14:35:44]
 Cyber-Fly resumed
+```
 
 這不應被記錄成：
 
@@ -725,24 +807,24 @@ Cyber-Fly 不試圖直接回答：
 
 Cyber-Fly 可以研究的是可觀測現象：
 
-# 神經系統
+### 神經系統
 
 - 神經活動如何傳播？
 - 不同輸入產生什麼活動模式？
 - 哪些 neuron / circuit 反覆參與？
 
-# 感知
+### 感知
 
 - 數位環境刺激如何影響神經活動？
 - 不同環境是否造成不同活動分布？
 
-# 行為
+### 行為
 
 - 神經活動與行為輸出有什麼關係？
 - 行為是否存在可重現模式？
 - 長時間運行後是否出現穩定行為結構？
 
-# 環境
+### 環境
 
 - Cyber-Fly 的行為如何改變數位環境？
 - 環境改變又如何反過來影響 Cyber-Fly？
@@ -779,6 +861,7 @@ Action = Intent
 
 而是保存：
 
+```
 Input
 ↓
 Neural Activity
@@ -786,23 +869,27 @@ Neural Activity
 Action
 ↓
 Environment State
+```
 
 讓未來的分析建立在資料上，而不是建立在故事上。
 
 ---
 
-#$ 🧪 E2E Verification
+## 🧪 E2E Verification
 
 Cyber-Fly Core 已完成連續 150-step E2E 測試。
 
 測試環境：
 
+```
 Resolution : 320 × 180
 Channels   : 3 RGB
 Steps      : 150
+```
 
 流程：
 
+```
 Fake RGB Frame
       ↓
 TCP
@@ -818,16 +905,20 @@ MaleCNS
 MotorDecoder
       ↓
 TCP response
+```
 
 測試結果：
 
+```
 steps sent : 150
 steps recv : 150
 elapsed    : 7.742 s
 avg/frame  : 51.61 ms
+```
 
 Action counts：
 
+```
 click          24
 double_click    2
 move_backward   6
@@ -835,6 +926,7 @@ none           95
 release        19
 swipe           1
 turn_left       3
+```
 
 結果：
 
@@ -842,12 +934,14 @@ E2E RESULT: PASS
 
 這證明目前 Core 的：
 
+```
 Frame
 → Vision
 → MaleCNS
 → MotorDecoder
 → Action
 → Communication
+```
 
 閉環可以持續運作。
 
@@ -867,15 +961,19 @@ Frame
 
 目前使用：
 
+```
 NumPy
 SciPy Sparse
+```
 
 而不是 Numba / llvmlite。
 
 目前測試：
 
+```
 ≈ 51.61 ms / frame
 ≈ 19.4 steps / second
+```
 
 對目前的完整 MaleCNS sparse simulation 而言，這已足以進行現階段實驗。
 
@@ -883,6 +981,7 @@ Cyber-Fly 不以「越快越好」為第一優先。
 
 優先順序：
 
+```
 Correctness
    ↓
 Reproducibility
@@ -890,6 +989,7 @@ Reproducibility
 Maintainability
    ↓
 Performance
+```
 
 ---
 
@@ -897,6 +997,7 @@ Performance
 
 目前核心架構：
 
+```
 Cyber-Fly/
 │
 ├── Cyber-Fly.py
@@ -931,6 +1032,7 @@ Cyber-Fly/
 │   └── text/
 │
 └── README.md
+```
 
 ---
 
@@ -940,9 +1042,11 @@ Cyber-Fly/
 
 主要訊息：
 
+```
 FRAME
 EVENT
 ACTION
+```
 
 目前 TCP runtime：
 
@@ -950,9 +1054,11 @@ ACTION
 
 採用：
 
+```
 4-byte network-order length prefix
 +
 JSON payload
+```
 
 最大訊息大小目前限制為：
 
@@ -968,6 +1074,7 @@ Cyber-Fly Core 不應依賴單一平台。
 
 預期：
 
+```
                  Cyber-Fly Core
                        │
              Standard Communication
@@ -977,15 +1084,18 @@ Cyber-Fly Core 不應依賴單一平台。
  Android Bridge   Windows Bridge   Linux Bridge
        ↓               ↓                ↓
    Android           PC Apps          Linux Apps
+```
 
 未來也可以接：
 
+```
 Minecraft
 Web
 Games
 Simulations
 Custom Worlds
 Robotics / Virtual Worlds
+```
 
 只要環境能提供：
 
@@ -1013,10 +1123,12 @@ Cyber-Fly 最重要的原則：
 
 只記錄：
 
+```
 Input
 Neural Activity
 Action
 Environment
+```
 
 不要直接宣稱：
 
@@ -1040,6 +1152,7 @@ CLICK → 空白
 
 Core 不知道：
 
+```
 Android
 Windows
 Linux
@@ -1047,6 +1160,7 @@ Minecraft
 Accessibility
 Mouse coordinates
 Keyboard layouts
+```
 
 這些屬於外部 Bridge / Environment。
 
@@ -1056,6 +1170,7 @@ Keyboard layouts
 
 任何讓 Cyber-Fly 「更聰明」的系統：
 
+```
 Knowledge
 Memory
 Skills
@@ -1063,6 +1178,7 @@ Database
 AI
 Task Logic
 Environment Rules
+```
 
 優先放在 Core 外部。
 
@@ -1072,8 +1188,10 @@ Environment Rules
 
 如果 Cyber-Fly 產生非預期結果：
 
+```
 先保存完整資料
 再研究發生了什麼
+```
 
 不要看到結果後直接編造「它為什麼這麼做」。
 
@@ -1085,6 +1203,7 @@ Cyber-Fly 最終可以被放入長時間運作的數位環境。
 
 例如：
 
+```
 Minecraft
      ↓
 數位世界
@@ -1096,12 +1215,15 @@ Cyber-Fly
 世界改變
      ↓
 Cyber-Fly 再次感知
+```
 
 可以讓系統運行：
 
+```
 Hours
 Days
 Weeks
+```
 
 並保存完整 trajectory。
 
@@ -1125,6 +1247,7 @@ Weeks
 
 甚至如果某一天：
 
+```
 Cyber-Fly
       ↓
 Minecraft
@@ -1132,6 +1255,7 @@ Minecraft
 長時間運作
       ↓
 Unexpected Result
+```
 
 真正值得研究的是：
 
@@ -1168,6 +1292,7 @@ Cyber-Fly 不是：
 
 目前：
 
+```
 🧠 MaleCNS data                    ✅
 🧠 Neural simulation               ✅
 👁️ Visual input                    ✅
@@ -1177,13 +1302,16 @@ Cyber-Fly 不是：
 🧪 150-step E2E                   ✅
 💾 Git LFS brain.npz              ✅
 💾 Git LFS weights.npz             ✅
+```
 
+```
 📱 Android Bridge                  ⏳
 🖥️ Windows Bridge                  ⏳
 🐧 Linux Bridge                    ⏳
 🎮 Minecraft integration           ⏳
 🧑‍🔬 Experiment Supervisor          ⏳
 📊 Long-term telemetry             ⏳
+```
 
 ---
 
@@ -1205,15 +1333,19 @@ Phase 2 — Bridges
 
 未來建立：
 
+```
 Android Bridge
 Windows Bridge
 Linux Bridge
+```
 
 統一：
 
+```
 Semantic Action
         ↓
 Platform Event
+```
 
 ---
 
@@ -1221,11 +1353,13 @@ Phase 3 — Digital Environments
 
 加入：
 
+```
 Minecraft
 Desktop
 Games
 Web environments
 Custom simulations
+```
 
 ---
 
@@ -1233,12 +1367,14 @@ Phase 4 — Long-running Experiments
 
 建立：
 
+```
 Telemetry
 Trajectory recording
 Neural activity recording
 Environment snapshots
 Action logs
 Experiment metadata
+```
 
 讓 Cyber-Fly 可以運行：
 
@@ -1276,11 +1412,13 @@ hours → days → weeks
 
 Cyber-Fly 程式碼、實驗程式與資料使用時，應區分：
 
+```
 Cyber-Fly code
         +
 fly.ai derived files
         +
 MaleCNS / FlyEM source data
+```
 
 "fly.ai" README 說明其程式碼採 MIT License，而 MaleCNS connectome 資料具有其自身的 CC BY 4.0 授權條款；使用、再發布與衍生資料時應依各自授權條件處理。
 
@@ -1316,6 +1454,7 @@ Cyber-Fly 的核心不是：
 
 再讓改變後的世界回到它的感覺系統。
 
+```
                  🌍 Digital World
                        │
                        ↓
@@ -1333,6 +1472,7 @@ Cyber-Fly 的核心不是：
                  🌍 World Change
                        │
                        └──────────→ 👁️
+```
 
 我們不替它寫答案。
 
