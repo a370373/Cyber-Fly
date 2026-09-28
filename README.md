@@ -1196,6 +1196,8 @@ Cyber-Fly 不試圖創造一個更像人類的 AI。
 
 ## 👀作品 & 產品 集
 
+- [Cyber-Fly-Android-Bridge](https://github.com/a370373/Cyber-Fly-Android-Bridge)
+- [My-ADB-Shell](https://github.com/a370373/My-ADB-Shell/tree/main)
 - [Cyber-Fly](https://github.com/a370373/Cyber-Fly)
 - [MyOS](https://github.com/a370373/MyOS)
 - [RWM-1:1 Real World Minecraft](https://github.com/a370373/RWM-Real-World-Minecraft)
